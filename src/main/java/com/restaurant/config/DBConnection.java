@@ -1,25 +1,26 @@
 package com.restaurant.config;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import javax.sql.DataSource;
 
 public class DBConnection {
 
-    @Bean
-    public DataSource dataSource() {
+    private static final String DRIVER = "org.h2.Driver";
+    private static final String URL = "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1";
+    private static final String USERNAME = "sa";
+    private static final String PASSWORD = "";
+
+    public static DataSource getDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl(System.getenv("JDBC_URL"));
-        dataSource.setUsername(System.getenv("USERNAME"));
-        dataSource.setPassword(System.getenv("PASSWORD"));
+        dataSource.setDriverClassName(DRIVER);
+        dataSource.setUrl(URL);
+        dataSource.setUsername(USERNAME);
+        dataSource.setPassword(PASSWORD);
         return dataSource;
     }
 
-    @Bean
-    public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-        return new JdbcTemplate(dataSource);
+    public static JdbcTemplate getJdbcTemplate() {
+        return new JdbcTemplate(getDataSource());
     }
 }
