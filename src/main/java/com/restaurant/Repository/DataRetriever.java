@@ -36,7 +36,7 @@ public class DataRetriever {
     public List<Ingredient> getAllIngredients() { return jdbc.query("SELECT * FROM ingredient", iM); }
     public Ingredient findIngredientById(Integer id) { return jdbc.query("SELECT * FROM ingredient WHERE id=?", iM, id).stream().findFirst().orElse(null); }
     public BigDecimal getStockValueAt(Integer id, Instant t) {
-        // 1. Get the latest stock value from ingredient_stock before or at t
+      
         BigDecimal initialStock = BigDecimal.ZERO;
         Instant lastStockTime = Instant.EPOCH;
         List<Map<String, Object>> lastStockList = jdbc.queryForList(
@@ -52,8 +52,6 @@ public class DataRetriever {
             }
             lastStockTime = ((java.sql.Timestamp) lastStock.get("TIMESTAMP")).toInstant();
         }
-
-        // 2. Add/subtract movements between lastStockTime and t
         List<StockMovement> movements = jdbc.query(
             "SELECT * FROM stock_movement WHERE ingredient_id=? AND creation_datetime > ? AND creation_datetime <= ?",
             smM, id, lastStockTime, t);
