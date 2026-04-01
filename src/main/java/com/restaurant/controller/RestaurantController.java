@@ -1,16 +1,15 @@
-
 package com.restaurant.controller;
 
 import com.restaurant.Repository.DataRetriever;
-import com.restaurant.entity.Dish;
-import com.restaurant.entity.Ingredient;
 import com.restaurant.entity.StockCalculation;
 import com.restaurant.entity.StockMovement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -18,33 +17,13 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/restaurant")
 public class RestaurantController {
 
     private static final Logger logger = LoggerFactory.getLogger(RestaurantController.class);
 
     @Autowired
     private DataRetriever dataRetriever;
-
-    @GetMapping("/ingredients")
-    public List<Ingredient> getAllIngredients() {
-        return dataRetriever.getAllIngredients();
-    }
-
-    @GetMapping("/dishes")
-    public List<Dish> getAllDishes() {
-        return dataRetriever.getAllDishes();
-    }
-
-    @GetMapping("/ingredients/{id}")
-    public Ingredient getIngredientById(@PathVariable Integer id) {
-        return dataRetriever.findIngredientById(id);
-    }
-
-    @GetMapping("/dishes/{id}")
-    public Dish getDishById(@PathVariable Integer id) {
-        return dataRetriever.findDishById(id);
-    }
 
     @GetMapping("/stock-movements")
     public List<StockMovement> getAllStockMovements() {
@@ -68,5 +47,3 @@ public class RestaurantController {
         }
     }
 }
-
-
