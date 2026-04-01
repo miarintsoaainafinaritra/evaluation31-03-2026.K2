@@ -6,7 +6,6 @@ INSERT INTO ingredient (id, name, price, category) VALUES
     (4, 'Chocolat', 5.00, 'OTHER'),
     (5, 'Beurre', 3.50, 'DAIRY');
 
--- Stock initial pour arriver aux valeurs de l'image
 INSERT INTO ingredient_stock (ingredient_id, timestamp, stock_value) VALUES
     (1, '2024-01-01 00:00:00', 5.0),
     (2, '2024-01-01 00:00:00', 4.0),
@@ -14,7 +13,7 @@ INSERT INTO ingredient_stock (ingredient_id, timestamp, stock_value) VALUES
     (4, '2024-01-01 00:00:00', 3.0),
     (5, '2024-01-01 00:00:00', 2.5);
 
--- Mouvements de stock de l'image
+
 INSERT INTO stock_movement (id, ingredient_id, quantity, unit, type, creation_datetime) VALUES
     (6, 1, 0.2, 'KG', 'OUT', '2024-01-06 12:00:00'),
     (7, 2, 0.15, 'KG', 'OUT', '2024-01-06 12:00:00'),
