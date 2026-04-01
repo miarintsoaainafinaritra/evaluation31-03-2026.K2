@@ -1,7 +1,6 @@
 package com.restaurant.controller;
 
 import com.restaurant.entity.Dish;
-import com.restaurant.entity.Ingredient;
 import com.restaurant.Repository.DataRetriever;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,33 +23,26 @@ public class DishController {
 
     @GetMapping("/{id}/ingredients")
     public ResponseEntity<?> getDishIngredients(@PathVariable Integer id,
-                                               @RequestParam(required = false) String ingredientName,
-                                               @RequestParam(required = false) BigDecimal ingredientPriceAround) {
+                                                @RequestParam(required = false) String name,
+                                                @RequestParam(required = false) BigDecimal price) {
         Dish dish = dataRetriever.findDishById(id);
         if (dish == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Dish.id=" + id + " is not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Dish not found");
         }
-
-        List<Ingredient> ingredients = dataRetriever.findIngredientsByDishId(id, ingredientName, ingredientPriceAround);
-        return ResponseEntity.ok(ingredients);
+        return ResponseEntity.ok(dataRetriever.findIngredientsByDishId(id, name, price));
     }
 
     @PutMapping("/{id}/ingredients")
     public ResponseEntity<?> updateDishIngredients(@PathVariable Integer id,
-                                                   @RequestBody List<Integer> ingredientIds) {
-        if (ingredientIds == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Request body is required and must contain a list of ingredient IDs");
+                                                   @RequestBody List<Integer> ids) {
+        if (ids == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid request");
         }
-
         Dish dish = dataRetriever.findDishById(id);
         if (dish == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Dish.id=" + id + " is not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Dish not found");
         }
-
-        dataRetriever.updateDishIngredients(id, ingredientIds);
+        dataRetriever.updateDishIngredients(id, ids);
         return ResponseEntity.ok().build();
     }
 }
